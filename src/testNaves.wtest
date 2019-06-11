@@ -1,0 +1,120 @@
+import naves.*
+
+test "Nave Baliza" {
+	var nave1 = new NaveBaliza()
+	nave1.prepararViaje()
+	
+	assert.equals("verde", nave1.color())
+	assert.equals(0, nave1.direccion())
+	assert.equals(30000, nave1.combustible())
+	assert.equals(5000, nave1.velocidad())
+	
+	nave1.escapar()
+	assert.equals(10, nave1.direccion())
+	
+	nave1.avisar() 
+	assert.equals("rojo", nave1.color())
+	
+	assert.notThat(nave1.estaTranquila() )
+}
+
+test "Nave Pasajeros"{
+	var nave2 = new NavePasajeros(cantPasajeros = 20)
+	
+	nave2.prepararViaje()
+	assert.equals(80, nave2.racionesComida())
+	assert.equals(120, nave2.racionesBebida())
+	assert.equals(1, nave2.direccion())
+	assert.equals(30000, nave2.combustible())
+	assert.equals(5000, nave2.velocidad())
+	
+	nave2.escapar() 
+	assert.equals(10000, nave2.velocidad())
+	
+	nave2.avisar()
+	assert.equals(1, nave2.racionesComida())
+	assert.equals(2, nave2.racionesBebida())
+}
+
+test "Naves combate"{
+	var nave3 = new NaveCombate()
+	
+	nave3.emitirMensaje("Hola")
+	nave3.emitirMensaje("mundo")
+	nave3.emitirMensaje("Wollok")
+	
+	assert.equals(["Hola","mundo","Wollok"], nave3.mensajesEmitidos())
+	assert.equals("Hola", nave3.primerMensajeEmitido())
+	assert.equals("Wollok", nave3.ultimoMensajeEmitido())
+	assert.that(nave3.esEscueta())
+	assert.that(nave3.emitioMensaje("Hola"))
+	assert.notThat(nave3.emitioMensaje("Hello"))
+	
+	nave3.prepararViaje()
+	assert.equals(30000, nave3.combustible())
+	assert.equals(20000, nave3.velocidad())
+	assert.notThat(nave3.estaInvisible())
+	assert.notThat(nave3.misilesDesplegados())
+	assert.equals(["Hola","mundo","Wollok","Saliendo en misión"], nave3.mensajesEmitidos())
+	
+	nave3.escapar()
+	assert.equals(2, nave3.direccion())
+	
+	nave3.avisar()
+	assert.equals(["Hola","mundo","Wollok","Saliendo en misión","Amenaza recibida"], nave3.mensajesEmitidos())
+	
+	assert.notThat(nave3.estaTranquila())
+}
+
+test "Nave hospital "{
+	var nave4 = new NaveHospital(cantPasajeros = 20)
+	 
+	nave4.prepararViaje()
+	assert.equals(80, nave4.racionesComida())
+	assert.equals(120, nave4.racionesBebida())
+	assert.equals(1, nave4.direccion())
+	assert.equals(30000, nave4.combustible())
+	assert.equals(5000, nave4.velocidad())
+	
+	
+	nave4.recibirAmenaza() 
+	assert.equals(10000, nave4.velocidad())
+	assert.equals(1, nave4.racionesComida())
+	assert.equals(2, nave4.racionesBebida())
+	assert.that(nave4.elQuirofanoEstaPreparado())
+	assert.notThat(nave4.estaTranquila())
+}
+
+test "Nave sigilosa "{
+	var nave5 = new NaveSigilosa()
+	
+	nave5.emitirMensaje("Hola")
+	nave5.emitirMensaje("mundo")
+	nave5.emitirMensaje("Wollok")
+	
+	assert.equals(["Hola","mundo","Wollok"], nave5.mensajesEmitidos())
+	assert.equals("Hola", nave5.primerMensajeEmitido())
+	assert.equals("Wollok", nave5.ultimoMensajeEmitido())
+	assert.that(nave5.esEscueta())
+	assert.that(nave5.emitioMensaje("Hola"))
+	assert.notThat(nave5.emitioMensaje("Hello"))
+	
+	nave5.prepararViaje()
+	assert.equals(30000, nave5.combustible())
+	assert.equals(20000, nave5.velocidad())
+	assert.notThat(nave5.estaInvisible())
+	assert.notThat(nave5.misilesDesplegados())
+	assert.equals(["Hola","mundo","Wollok","Saliendo en misión"], nave5.mensajesEmitidos())
+	
+	nave5.recibirAmenaza()
+	assert.equals(2, nave5.direccion())
+	assert.equals(["Hola","mundo","Wollok","Saliendo en misión","Amenaza recibida"], nave5.mensajesEmitidos())
+	assert.that(nave5.misilesDesplegados())	
+	assert.that(nave5.estaInvisible())
+	
+	assert.notThat(nave5.estaTranquila())
+}
+	
+
+
+
